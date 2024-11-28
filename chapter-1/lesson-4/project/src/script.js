@@ -14,18 +14,31 @@ scene.add(axesHelper);
 /**
  * Objects
  */
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({color: 0xff0000});
-const mesh = new THREE.Mesh(geometry, material);
-mesh.position.set(0.7, -0.6, 1);
-mesh.scale.set(2, 0.5, 0.5);
-scene.add(mesh);
+const group = new THREE.Group();
+group.position.set(0.7, -0.6, 1);
+// NOTE: "rotation" happens around the object axes, applied in the order XYZ.
+group.rotation.set(0, Math.PI * 0.25, 0);
+scene.add(group);
 
-// NOTE: using "rotation" happens around the object axes, applied in the order XYZ.
-//  "quaternion" is another option for controlling rotation, but this course hasn't got that far yet...
-//  for FPS game-like "head rotation" mechanics, we must change this to apply the Y-axis rotation first.
-mesh.rotation.reorder('YXZ');
-mesh.rotation.set(Math.PI * 0.25, Math.PI * 0.25, 0);
+const cube1 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({color: 0xff0000})
+);
+group.add(cube1);
+
+const cube2 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({color: 0x00ff00})
+);
+cube2.position.x = -2;
+group.add(cube2);
+
+const cube3 = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({color: 0x0000ff})
+);
+cube3.position.x = 2;
+group.add(cube3);
 
 /**
  * Sizes
@@ -40,7 +53,7 @@ const sizes = {
  */
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
 camera.position.set(1, 1, 5);
-camera.lookAt(mesh.position);
+camera.lookAt(group.position);
 scene.add(camera);
 
 /**
@@ -53,5 +66,5 @@ renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 
 // some random debugging output
-console.log("cube distance from center:", mesh.position.length());
-console.log("camera distance from cube:", camera.position.distanceTo(mesh.position));
+console.log("group distance from center:", group.position.length());
+console.log("camera distance from group:", camera.position.distanceTo(group.position));
