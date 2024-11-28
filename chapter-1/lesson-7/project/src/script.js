@@ -43,6 +43,27 @@ window.addEventListener('resize', (event) => {
   }
 });
 
+window.addEventListener('dblclick', async (event) => {
+  const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+  // const requestFullscreen = canvas.requestFullscreen || canvas.webkitRequestFullscreen;
+
+  if (!fullscreenElement) {
+    if (canvas.requestFullscreen) {
+      await canvas.requestFullscreen();
+    } else if (canvas.webkitRequestFullscreen) {
+      // NOTE: this is only for older Safari versions, newer releases include the more common API.
+      await canvas.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      await document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      // NOTE: this is only for older Safari versions, newer releases include the more common API.
+      await document.webkitExitFullscreen();
+    }
+  }
+});
+
 /**
  * Camera
  */
