@@ -37,6 +37,10 @@ window.addEventListener('resize', (event) => {
 
   // update renderer
   renderer.setSize(sizes.width, sizes.height);
+  if (window.devicePixelRatio > 1) {
+    // but for performance reasons, clamp the pixel ratio to no more than 2
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  }
 });
 
 /**
@@ -58,6 +62,10 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas
 });
 renderer.setSize(sizes.width, sizes.height);
+if (window.devicePixelRatio > 1) {
+  // but for performance reasons, clamp the pixel ratio to no more than 2
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+}
 
 /**
  * Animate
