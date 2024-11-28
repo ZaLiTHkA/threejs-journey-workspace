@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 /**
  * Cursor tracking
@@ -50,6 +51,10 @@ camera.position.z = 3;
 camera.lookAt(mesh.position);
 scene.add(camera);
 
+// configure orbit controls
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas
@@ -66,11 +71,14 @@ const tick = () =>
   // // Update objects
   // mesh.rotation.y = elapsedTime;
 
-  // rotate camera around cube based on mouse position, turning to face it on each frame
-  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * Math.PI;
-  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * Math.PI;
-  camera.position.y = cursor.y * -5;
-  camera.lookAt(mesh.position);
+  // // rotate camera around cube based on mouse position, turning to face it on each frame
+  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * Math.PI;
+  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * Math.PI;
+  // camera.position.y = cursor.y * -5;
+  // camera.lookAt(mesh.position);
+
+  // update orbit control here, so the animation eases out after releasing the mouse button
+  controls.update();
 
   // Render
   renderer.render(scene, camera);
